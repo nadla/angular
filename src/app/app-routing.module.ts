@@ -1,7 +1,26 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthentificationComponent } from './authentification/authentification.component';
+import { ErrorNavigationComponent } from './component/error-navigation/error-navigation.component';
+import { MachineComponent } from './component/machine/machine.component';
+import { SingleMachineComponent } from './component/single-machine/single-machine.component'
+import { AuthGuardService } from './service/auth-guard.service';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: 'auth', component: AuthentificationComponent
+  }, {
+    path: 'machine', canActivate: [AuthGuardService], component: MachineComponent
+  }, {
+    path: 'machine/:id', canActivate: [AuthGuardService], component: SingleMachineComponent
+  }, {
+    path: '', component: AuthentificationComponent
+  }, {
+    path: 'notfound', component: ErrorNavigationComponent
+  }, {
+    path: '**', redirectTo: 'notfound'
+  }
+]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
